@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head><title>Imageboard</title></head>
+<body>
+<h1>Imageboard</h1>
+<form method="get">
+  <input type="text" name="q" placeholder="Search tags">
+  <button type="submit">Search</button>
+</form>
+
+<a href="{% url 'upload' %}">Upload new</a>
+
+<hr>
+{% for post in posts %}
+  <div>
+    <h2>{{ post.title }}</h2>
+    <img src="{{ post.image.url }}" width="300"><br>
+  </div>
+  <hr>
+{% empty %}
+  <p>No posts yet!</p>
+{% endfor %}
+</body>
+</html>
+

@@ -1,11 +1,11 @@
 from django.http import HttpResponse;
 from django.shortcuts import redirect, render
 
-from main import forms
+from main import forms, models
 
 def index(request):
-    print(type(request));
-    return HttpResponse(b"hello world");
+    posts = models.Artwork.objects.order_by("-uploadt");
+    return render(request, "list.html", {"posts": posts});
 
 def upload(request):
     if request.method == "POST":
