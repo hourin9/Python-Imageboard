@@ -1,8 +1,14 @@
-from django.db import models
+import os, time;
+from django.db import models;
+
+def rename_image(instance, filename) -> str:
+    ext = os.path.splitext(filename)[1].lower();
+    ut = int(time.time());
+    return f"artworks/{ut}{ext}";
 
 class Artwork(models.Model):
     title = models.CharField(max_length=200);
-    image = models.ImageField(upload_to="artworks/");
+    image = models.ImageField(upload_to=rename_image);
     uploadt = models.DateTimeField(auto_now_add=True);
     # TODO: tag and uploader foreign key
 
