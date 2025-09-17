@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head><title>Upload</title></head>
+<body>
+<h1>Upload</h1>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Create</button>
+</form>
+<a href="{% url 'index' %}">Back to board</a>
+</body>
+</html>
+
