@@ -9,7 +9,7 @@ class ImagePost(forms.ModelForm):
 
         # NOTE: in future update, title is automatically replaced
         # with either the image hash or current time.
-        fields = ["title", "image"];
+        fields = ["image", "tags"];
 
 class TagCreation(forms.ModelForm):
     class Meta:

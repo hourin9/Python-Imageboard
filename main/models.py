@@ -16,7 +16,6 @@ class Tag(models.Model):
     ttype = models.IntegerField(choices=Type);
 
 class Artwork(models.Model):
-    title = models.CharField(max_length=200);
     image = models.ImageField(upload_to=rename_image);
     uploadt = models.DateTimeField(auto_now_add=True);
     tags = models.ManyToManyField(Tag);
