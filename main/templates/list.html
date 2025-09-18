@@ -4,21 +4,26 @@
 <body>
 <h1>Imageboard</h1>
 <form method="get">
-  <input type="text" name="q" placeholder="Search tags">
-  <button type="submit">Search</button>
+    <input type="text" name="q" placeholder="Search tags">
+    <button type="submit">Search</button>
 </form>
 
 <a href="{% url 'upload' %}">Upload new</a>
 
 <hr>
 {% for post in posts %}
-  <div>
-    <h2>{{ post.title }}</h2>
-    <img src="{{ post.image.url }}" width="300"><br>
-  </div>
-  <hr>
+    <div>
+        <h2>{{ post.title }}</h2>
+        <img src="{{ post.image.url }}" width="300"><br>
+        {% for tag in post.tags.all %}
+            <p> {{tag.name}} {{tag.ttype}} </p>
+        {% empty %}
+            <p> Untagged </p>
+        {% endfor %}
+    </div>
+<hr>
 {% empty %}
-  <p>No posts yet!</p>
+    <p>No posts yet!</p>
 {% endfor %}
 </body>
 </html>
