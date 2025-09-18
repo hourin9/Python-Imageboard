@@ -12,7 +12,7 @@ class Tag(models.Model):
         CHARACTER = 2;
         SERIES = 3;
 
-    name = models.CharField(max_length=50);
+    name = models.CharField(max_length=50, primary_key=True);
     ttype = models.IntegerField(choices=Type);
 
 class Artwork(models.Model):
