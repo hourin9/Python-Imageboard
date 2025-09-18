@@ -19,6 +19,6 @@ class Artwork(models.Model):
     title = models.CharField(max_length=200);
     image = models.ImageField(upload_to=rename_image);
     uploadt = models.DateTimeField(auto_now_add=True);
-    tag = models.ManyToManyField(Tag);
+    tags = models.ManyToManyField(Tag);
     # TODO: uploader foreign key
 
