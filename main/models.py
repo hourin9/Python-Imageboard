@@ -6,12 +6,6 @@ def rename_image(instance, filename) -> str:
     ut = int(time.time());
     return f"artworks/{ut}{ext}";
 
-class Artwork(models.Model):
-    title = models.CharField(max_length=200);
-    image = models.ImageField(upload_to=rename_image);
-    uploadt = models.DateTimeField(auto_now_add=True);
-    # TODO: tag and uploader foreign key
-
 class Tag(models.Model):
     class Type(models.IntegerChoices):
         ARTIST = 1;
@@ -20,4 +14,11 @@ class Tag(models.Model):
 
     name = models.CharField(max_length=50);
     ttype = models.IntegerField(choices=Type);
+
+class Artwork(models.Model):
+    title = models.CharField(max_length=200);
+    image = models.ImageField(upload_to=rename_image);
+    uploadt = models.DateTimeField(auto_now_add=True);
+    tag = models.ManyToManyField(Tag);
+    # TODO: uploader foreign key
 
