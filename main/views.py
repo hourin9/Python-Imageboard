@@ -4,7 +4,15 @@ from django.shortcuts import get_object_or_404, redirect, render
 from main import forms, models
 
 def index(request):
-    posts = models.Artwork.objects.order_by("-uploadt");
+    tag_query = request.GET.get("q");
+    posts = models.Artwork.objects.all();
+
+    if tag_query:
+        tags = tag_query.split();
+        for name in tags:
+            posts = posts.filter(tags__name__iexact=name);
+
+    posts = posts.order_by("-uploadt");
     return render(request, "list.html", {"posts": posts});
 
 def imageview(request, pk):
