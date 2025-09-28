@@ -6,7 +6,9 @@
 <div>
     <h3> Tags </h3>
     {% for tag in artwork.tags.all %}
-        {{tag.name}}
+        <a href="{% url 'index' %}?q={{ tag.name }}">
+            {{tag.name}}
+        </a>
     {% endfor %}
 </div>
 
