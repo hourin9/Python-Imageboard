@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><title>Artwork view</title></head>
+<body>
+<!-- TODO: add a tag box div class -->
+<div>
+    <h3> Tags </h3>
+    {% for tag in artwork.tags.all %}
+        {{tag.name}}
+    {% endfor %}
+</div>
+
+<!-- TODO: also an image box div class -->
+<div>
+    <img src="{{ artwork.image.url }}">
+</div>
+</body>
+</html>
+

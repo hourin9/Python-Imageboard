@@ -6,5 +6,6 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("upload/", views.upload, name="upload"),
     path("tagcreate/", views.tagcreate, name="tagcreate"),
+    path("artwork/<int:pk>/", views.imageview, name="imageview"),
 ];
 

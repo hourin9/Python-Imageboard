@@ -1,11 +1,15 @@
 from django.http import HttpResponse;
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from main import forms, models
 
 def index(request):
     posts = models.Artwork.objects.order_by("-uploadt");
     return render(request, "list.html", {"posts": posts});
+
+def imageview(request, pk):
+    artwork = get_object_or_404(models.Artwork, pk=pk);
+    return render(request, "imageview.html", {"artwork": artwork});
 
 def tagcreate(request):
     if request.method == "POST":
