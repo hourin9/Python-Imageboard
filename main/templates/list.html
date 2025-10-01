@@ -9,6 +9,7 @@
     <div class="w-1/6 p-6 break-words overflow-y-auto">
         <form method="get">
             <input type="text" name="q" placeholder="Search tags"
+                value="{{ request.GET.q }}"
                 class="border p-1 w-full">
             <button type="submit" class="border bg-gray-200 p-1">
                 Search

@@ -7,10 +7,13 @@
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Save changes</button>
+    <button type="submit" class="text-green-700 font-bold">
+        Save changes
+    </button>
 </form>
 
-<a href="{% url 'imageview' artwork.pk %}">
+<a href="{% url 'imageview' artwork.pk %}"
+    class="text-red-500 font-bold">
     Cancel
 </a>
 
