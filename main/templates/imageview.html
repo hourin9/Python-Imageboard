@@ -1,14 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head><title>Artwork view</title></head>
-<body>
+{% extends "base.html" %}
+{% block title %} Artwork view {% endblock %}
+
+{% block content %}
 <!-- TODO: add a tag box div class -->
 <div>
     <h3> Tags </h3>
     {% for tag in artwork.tags.all %}
-        <a href="{% url 'index' %}?q={{ tag.name }}">
-            {{tag.name}}
-        </a>
+    {% if tag.ttype == 1 %}
+        <div class="text-rose-900">
+    {% elif tag.ttype == 2 %}
+        <div class="text-blue-900">
+    {% elif tag.ttype == 3 %}
+        <div class="text-violet-900">
+    {% endif %}
+            <a href="{% url 'index' %}?q={{ tag.name }}">
+                {{tag.name}}
+            </a>
+        </div>
     {% endfor %}
 </div>
 
@@ -16,6 +24,5 @@
 <div>
     <img src="{{ artwork.image.url }}">
 </div>
-</body>
-</html>
+{% endblock %}
 

@@ -1,7 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head><title>Imageboard</title></head>
-<body>
+{% extends "base.html" %}
+{% block title %} Imageboard {% endblock %}
+
+{% block content %}
 <h1>Imageboard</h1>
 <form method="get">
     <input type="text" name="q" placeholder="Search tags">
@@ -21,6 +21,5 @@
 {% empty %}
     <p>No posts yet!</p>
 {% endfor %}
-</body>
-</html>
+{% endblock %}
 
