@@ -20,7 +20,16 @@ def index(request):
     print("getting page ", pagen);
     page = paginator.get_page(pagen);
 
-    return render(request, "list.html", {"page": page});
+    poptags: set[models.Tag] = set();
+    for artwork in page:
+        for tag in artwork.tags.all():
+            poptags.add(tag);
+
+    return render(
+        request,
+        "list.html",
+        {"page": page, "popular_tags": poptags}
+    );
 
 def imageview(request, pk):
     artwork = get_object_or_404(models.Artwork, pk=pk);

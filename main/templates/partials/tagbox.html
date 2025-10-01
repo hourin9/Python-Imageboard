@@ -11,7 +11,7 @@
             <a href="{% url 'index' %}?q={{ tag.name }}">
                 {{ tag.name }}
             </a>
-            <p> {{ tag.artwork_count }} </p>
+            <span> {{ tag.artwork_count }} </span>
         </div>
 {% endfor %}
 
