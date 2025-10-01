@@ -14,6 +14,7 @@ class Tag(models.Model):
 
     name = models.CharField(max_length=50, primary_key=True);
     ttype = models.IntegerField(choices=Type);
+    artwork_count = models.PositiveBigIntegerField(default=0);
 
 class Artwork(models.Model):
     image = models.ImageField(upload_to=rename_image);
