@@ -34,6 +34,12 @@ def tagcreate(request):
     form = forms.TagCreation();
     return render(request, "tagcreate.html", {"form": form});
 
+def tag_delete(request, pk):
+    del request;
+    tag = get_object_or_404(models.Tag, pk=pk);
+    tag.delete();
+    return redirect("index");
+
 def upload(request):
     if request.method == "POST":
         form = forms.ImagePost(request.POST, request.FILES);
@@ -42,4 +48,10 @@ def upload(request):
             return redirect("index");
     form = forms.ImagePost();
     return render(request, "upload.html", {"form": form});
+
+def delete_artwork(request, pk):
+    del request;
+    artwork = get_object_or_404(models.Artwork, pk=pk);
+    artwork.delete();
+    return redirect("index");
 
