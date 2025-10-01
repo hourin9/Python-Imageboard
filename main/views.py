@@ -49,7 +49,7 @@ def upload(request):
     form = forms.ImagePost();
     return render(request, "upload.html", {"form": form});
 
-def delete_artwork(request, pk):
+def artwork_delete(request, pk):
     del request;
     artwork = get_object_or_404(models.Artwork, pk=pk);
     artwork.delete();

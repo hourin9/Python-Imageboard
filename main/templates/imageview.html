@@ -6,6 +6,12 @@
     <div class="w-1/6 p-6 break-words overflow-y-auto">
     <h3> Tags </h3>
         {% include "partials/tagbox.html" with tags=artwork.tags.all %}
+
+    <a href="{% url 'imagedelete' artwork.pk %}"
+        class="text-red-600 font-bold"
+        onclick="return confirm('Delete this artwork?');">
+        Delete
+    </a>
     </div>
 
     <div class="flex-1 pt-6">
