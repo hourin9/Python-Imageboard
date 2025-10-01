@@ -21,7 +21,7 @@
 
     <div class="flex-1 p-6 overflow-y-auto">
     <div class="grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-        {% for post in posts %}
+        {% for post in page %}
             <div class="overflow-hidden">
                 <a href="{% url 'imageview' post.pk %}">
                 <img src="{{ post.image.url }}" width="300">
@@ -32,6 +32,34 @@
         {% endfor %}
     </div>
     </div>
+</div>
+
+<div class="flex justify-center space-x-4 p-2 mt-6">
+    {% if page.has_previous %}
+        <a href="?page={{ page.previous_page_number }}
+            {% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+           class="text-blue-500">-</a>
+    {% endif %}
+
+    {% for num in page.paginator.page_range %}
+        {% if num == page.number %}
+            <span class="text-black-900 font-bold">{{ num }}</span>
+        {% elif num <= page.number|add:-3 or num >= page.number|add:3 %}
+            {% if forloop.first or forloop.last %}
+                <a class="text-blue-500" href="?page={{ num }}">{{ num }}</a>
+            {% elif forloop.counter0 == 1 or forloop.counter0 == page.paginator.num_pages|add:-2 %}
+                <span class="paginator-ellipsis">…</span>
+            {% endif %}
+        {% else %}
+            <a class="text-blue-500" href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page.has_next %}
+        <a href="?page={{ page.next_page_number }}
+            {% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+           class="text-blue-500">+</a>
+    {% endif %}
 </div>
 {% endblock %}
 

@@ -1,5 +1,6 @@
 from django.http import HttpResponse;
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect, render;
+from django.core.paginator import Paginator;
 
 from main import forms, models
 
@@ -13,7 +14,12 @@ def index(request):
             posts = posts.filter(tags__name__iexact=name);
 
     posts = posts.order_by("-uploadt");
-    return render(request, "list.html", {"posts": posts});
+    paginator = Paginator(posts, 20);
+    pagen = request.GET.get("page");
+    print("getting page ", pagen);
+    page = paginator.get_page(pagen);
+
+    return render(request, "list.html", {"page": page});
 
 def imageview(request, pk):
     artwork = get_object_or_404(models.Artwork, pk=pk);
