@@ -11,6 +11,7 @@
             <a href="{% url 'index' %}?q={{ tag.name }}">
                 {{ tag.name }}
             </a>
+            <p> {{ tag.artwork_count }} </p>
         </div>
 {% endfor %}
 
