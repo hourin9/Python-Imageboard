@@ -2,8 +2,19 @@
 {% block title %} Artwork view {% endblock %}
 
 {% block content %}
+<h1 class="text-2xl font-bold">Imageboard</h1>
+<a href="{% url 'upload' %}" class="font-bold underline">Upload new</a>
+
 <div class="flex h-screen">
     <div class="w-1/6 p-6 break-words overflow-y-auto">
+        <form method="get" action="{% url 'index' %}">
+        <input type="text" name="q" placeholder="Search tags"
+            value="{{ request.GET.q }}"
+            class="border p-1 w-full">
+        <button type="submit" class="border bg-gray-200 p-1">
+            Search
+        </button>
+    </form>
     <h3> Tags </h3>
         {% include "partials/tagbox.html" with tags=artwork.tags.all %}
 
