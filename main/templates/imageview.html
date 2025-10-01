@@ -5,19 +5,7 @@
 <!-- TODO: add a tag box div class -->
 <div>
     <h3> Tags </h3>
-    {% for tag in artwork.tags.all %}
-    {% if tag.ttype == 1 %}
-        <div class="text-rose-900">
-    {% elif tag.ttype == 2 %}
-        <div class="text-blue-900">
-    {% elif tag.ttype == 3 %}
-        <div class="text-violet-900">
-    {% endif %}
-            <a href="{% url 'index' %}?q={{ tag.name }}">
-                {{tag.name}}
-            </a>
-        </div>
-    {% endfor %}
+    {% include "partials/tagbox.html" with artwork=artwork %}
 </div>
 
 <!-- TODO: also an image box div class -->

@@ -10,6 +10,11 @@
 
 <a href="{% url 'upload' %}">Upload new</a>
 
+<div>
+    <h3> Popular tags </h3>
+    {% include "partials/tagbox.html" with artwork=artwork %}
+</div>
+
 <hr>
 {% for post in posts %}
     <div>

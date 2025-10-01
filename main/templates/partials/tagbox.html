@@ -1,0 +1,16 @@
+{% for tag in artwork.tags.all %}
+    {% if tag.ttype == 1 %}
+        <div class="text-rose-900">
+    {% elif tag.ttype == 2 %}
+        <div class="text-blue-900">
+    {% elif tag.ttype == 3 %}
+        <div class="text-violet-900">
+    {% else %}
+        <div>
+    {% endif %}
+            <a href="{% url 'index' %}?q={{ tag.name }}">
+                {{ tag.name }}
+            </a>
+        </div>
+{% endfor %}
+
