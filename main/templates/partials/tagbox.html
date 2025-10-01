@@ -1,10 +1,10 @@
-{% for tag in artwork.tags.all %}
+{% for tag in tags %}
     {% if tag.ttype == 1 %}
-        <div class="text-rose-900">
+        <div class="text-rose-700">
     {% elif tag.ttype == 2 %}
-        <div class="text-blue-900">
+        <div class="text-lime-700">
     {% elif tag.ttype == 3 %}
-        <div class="text-violet-900">
+        <div class="text-violet-700">
     {% else %}
         <div>
     {% endif %}

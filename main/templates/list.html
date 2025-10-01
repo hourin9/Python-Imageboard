@@ -3,28 +3,32 @@
 
 {% block content %}
 <h1>Imageboard</h1>
-<form method="get">
-    <input type="text" name="q" placeholder="Search tags">
-    <button type="submit">Search</button>
-</form>
-
 <a href="{% url 'upload' %}">Upload new</a>
 
-<div>
-    <h3> Popular tags </h3>
-    {% include "partials/tagbox.html" with artwork=artwork %}
-</div>
+<div class="flex h-screen">
+    <div class="w-1/6 p-6 break-words overflow-y-auto">
+        <form method="get">
+            <input type="text" name="q" placeholder="Search tags">
+            <button type="submit">Search</button>
+        </form>
 
-<hr>
-{% for post in posts %}
-    <div>
-        <a href="{% url 'imageview' post.pk %}">
-        <img src="{{ post.image.url }}" width="300"><br>
-        </a>
+        <h3> Popular tags </h3>
+        {% include "partials/tagbox.html" with tags=artwork %}
     </div>
-<hr>
-{% empty %}
-    <p>No posts yet!</p>
-{% endfor %}
+
+    <div class="flex-1 p-6 overflow-y-auto">
+    <div class="grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        {% for post in posts %}
+            <div class="overflow-hidden">
+                <a href="{% url 'imageview' post.pk %}">
+                <img src="{{ post.image.url }}" width="300">
+                </a>
+            </div>
+        {% empty %}
+            <p>No posts yet!</p>
+        {% endfor %}
+    </div>
+    </div>
+</div>
 {% endblock %}
 
