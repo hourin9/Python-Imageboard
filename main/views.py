@@ -1,4 +1,5 @@
 import os;
+from django.db.models.query import QuerySet
 from django.http import HttpResponse;
 from django.shortcuts import get_object_or_404, redirect, render;
 from django.core.paginator import Paginator;
@@ -7,12 +8,14 @@ from main import forms, models
 
 def index(request):
     tag_query = request.GET.get("q");
-    posts = models.Artwork.objects.all();
-
+    posts: QuerySet[models.Artwork] = models.Artwork.objects.all();
     if tag_query:
         tags = tag_query.split();
         for name in tags:
-            posts = posts.filter(tags__name__iexact=name);
+            if name[0] == '-':
+                posts = posts.exclude(tags__name__iexact=name[1:]);
+            else:
+                posts = posts.filter(tags__name__iexact=name);
 
     posts = posts.order_by("-uploadt");
     paginator = Paginator(posts, 20);
