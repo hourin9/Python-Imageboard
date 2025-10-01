@@ -1,3 +1,4 @@
+import os
 from django.http import HttpResponse;
 from django.shortcuts import get_object_or_404, redirect, render;
 from django.core.paginator import Paginator;
@@ -51,7 +52,9 @@ def upload(request):
 
 def artwork_delete(request, pk):
     del request;
-    artwork = get_object_or_404(models.Artwork, pk=pk);
+    artwork: models.Artwork = get_object_or_404(models.Artwork, pk=pk);
+    if artwork and os.path.isfile(artwork.image.path):
+        os.remove(artwork.image.path);
     artwork.delete();
     return redirect("index");
 
