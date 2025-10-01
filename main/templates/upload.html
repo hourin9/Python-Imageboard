@@ -8,6 +8,28 @@
     {{ form.as_p }}
     <button type="submit">Upload</button>
 </form>
+
+<div>
+    <img id="preview" src="" class="max-h-full max-w-full object-contain">
+</div>
+
 <a href="{% url 'index' %}">Back to board</a>
+
+
+<script>
+    const fileInput = document.querySelector('input[type="file"]');
+    const preview = document.getElementById('preview');
+
+    fileInput.addEventListener('change', () => {
+        const file = fileInput.files[0];
+        if (file) {
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+        } else {
+            preview.src = "";
+            preview.style.display = 'none';
+        }
+    });
+</script>
 {% endblock %}
 
