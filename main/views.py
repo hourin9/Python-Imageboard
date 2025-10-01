@@ -1,4 +1,4 @@
-import os
+import os;
 from django.http import HttpResponse;
 from django.shortcuts import get_object_or_404, redirect, render;
 from django.core.paginator import Paginator;
@@ -41,7 +41,7 @@ def tag_delete(request, pk):
     tag.delete();
     return redirect("index");
 
-def upload(request):
+def artwork_upload(request):
     if request.method == "POST":
         form = forms.ImagePost(request.POST, request.FILES);
         if form.is_valid():
@@ -49,6 +49,17 @@ def upload(request):
             return redirect("index");
     form = forms.ImagePost();
     return render(request, "upload.html", {"form": form});
+
+def artwork_update(request, pk):
+    artwork: models.Artwork = get_object_or_404(models.Artwork, pk=pk);
+    if request.method == "POST":
+        form = forms.ImagePost(request.POST, instance=artwork);
+        if form.is_valid():
+            form.save();
+            return redirect("imageview", pk=artwork.pk);
+    else:
+        form = forms.ImageUpdate(instance=artwork);
+    return render(request, "imageupdate.html", {"form": form, "artwork": artwork});
 
 def artwork_delete(request, pk):
     del request;

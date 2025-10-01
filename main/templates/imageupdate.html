@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %} Update Artwork {% endblock %}
+
+{% block content %}
+<h1>Editing tags</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save changes</button>
+</form>
+
+<a href="{% url 'imageview' artwork.pk %}">
+    Cancel
+</a>
+
+<div>
+    <img id="preview" src="{{ artwork.image.url }}"
+        class="max-h-full max-w-full object-contain">
+</div>
+
+{% endblock %}
+

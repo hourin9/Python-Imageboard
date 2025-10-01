@@ -11,6 +11,11 @@ class ImagePost(forms.ModelForm):
         # with either the image hash or current time.
         fields = ["image", "tags"];
 
+class ImageUpdate(forms.ModelForm):
+    class Meta:
+        model = Artwork;
+        fields = ["tags"];
+
 class TagCreation(forms.ModelForm):
     class Meta:
         model = Tag;

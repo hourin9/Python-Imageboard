@@ -12,6 +12,13 @@
         onclick="return confirm('Delete this artwork?');">
         Delete
     </a>
+
+    <br>
+
+    <a href="{% url 'imageupdate' artwork.pk %}"
+        class="text-yellow-600 font-bold">
+        Edit tags
+    </a>
     </div>
 
     <div class="flex-1 pt-6">
