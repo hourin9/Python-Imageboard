@@ -20,5 +20,6 @@ class Artwork(models.Model):
     image = models.ImageField(upload_to=rename_image);
     uploadt = models.DateTimeField(auto_now_add=True);
     tags = models.ManyToManyField(Tag);
+    score = models.BigIntegerField(default=0);
     # TODO: uploader foreign key
 
