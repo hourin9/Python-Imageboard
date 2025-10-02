@@ -6,18 +6,40 @@ from django.core.paginator import Paginator;
 
 from main import forms, models
 
+def __handle_order_queries(
+    what: str,
+    posts: QuerySet[models.Artwork]) -> QuerySet:
+    print("sorting by ", what);
+    if what == "score":
+        posts = posts.order_by("score");
+    elif what == "score_asc":
+        posts = posts.order_by("-score");
+    elif what == "date_asc":
+        posts = posts.order_by("uploadt");
+    elif what == "date":
+        posts = posts.order_by("-uploadt");
+    else:
+        posts = posts.order_by("-uploadt");
+    return posts;
+
 def index(request):
     tag_query = request.GET.get("q");
     posts: QuerySet[models.Artwork] = models.Artwork.objects.all();
+    already_ordered: bool = False;
+
     if tag_query:
         tags = tag_query.split();
         for name in tags:
             if name[0] == '-':
                 posts = posts.exclude(tags__name__iexact=name[1:]);
+            elif name[0:5] == "order":
+                posts = __handle_order_queries(name[6:], posts);
+                already_ordered = True;
             else:
                 posts = posts.filter(tags__name__iexact=name);
 
-    posts = posts.order_by("-uploadt");
+    if not already_ordered:
+        posts = posts.order_by("-uploadt");
     paginator = Paginator(posts, 20);
     pagen = request.GET.get("page");
     print("getting page ", pagen);
