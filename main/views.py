@@ -5,10 +5,13 @@ from django.shortcuts import get_object_or_404, redirect, render;
 from django.core.paginator import Paginator;
 
 from django.contrib.auth import authenticate, login, logout;
-from django.contrib.auth.decorators import login_required;
+from django.contrib.auth.decorators import login_required, user_passes_test;
 from django.contrib.auth.models import User;
 
 from main import forms, models
+
+def mod_required(fn):
+    return user_passes_test(lambda u: u.is_superuser, login_url="login")(fn)
 
 def __handle_order_queries(
     what: str,
@@ -64,6 +67,7 @@ def imageview(request, pk):
     artwork = get_object_or_404(models.Artwork, pk=pk);
     return render(request, "imageview.html", {"artwork": artwork});
 
+@login_required
 def tagcreate(request):
     if request.method == "POST":
         form = forms.TagCreation(request.POST, request.FILES);
@@ -73,12 +77,14 @@ def tagcreate(request):
     form = forms.TagCreation();
     return render(request, "tagcreate.html", {"form": form});
 
+@mod_required
 def tag_delete(request, pk):
     del request;
     tag = get_object_or_404(models.Tag, pk=pk);
     tag.delete();
     return redirect("index");
 
+@login_required
 def artwork_upload(request):
     if request.method == "POST":
         form = forms.ImagePost(request.POST, request.FILES);
@@ -88,6 +94,7 @@ def artwork_upload(request):
     form = forms.ImagePost();
     return render(request, "upload.html", {"form": form});
 
+@login_required
 def artwork_update(request, pk):
     artwork: models.Artwork = get_object_or_404(models.Artwork, pk=pk);
     if request.method == "POST":
@@ -97,8 +104,10 @@ def artwork_update(request, pk):
             return redirect("imageview", pk=artwork.pk);
     else:
         form = forms.ImageUpdate(instance=artwork);
-    return render(request, "imageupdate.html", {"form": form, "artwork": artwork});
+    return render(request, "imageupdate.html",
+            {"form": form, "artwork": artwork});
 
+@login_required
 def artwork_delete(request, pk):
     del request;
     artwork: models.Artwork = get_object_or_404(models.Artwork, pk=pk);
