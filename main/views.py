@@ -4,7 +4,7 @@ from django.http import HttpResponse;
 from django.shortcuts import get_object_or_404, redirect, render;
 from django.core.paginator import Paginator;
 
-from django.contrib.auth import authenticate, login;
+from django.contrib.auth import authenticate, login, logout;
 from django.contrib.auth.decorators import login_required;
 from django.contrib.auth.models import User;
 
@@ -107,6 +107,36 @@ def artwork_delete(request, pk):
     artwork.delete();
     return redirect("index");
 
+def logout_page(request):
+    logout(request);
+    return redirect("index");
+
+def register_page(request):
+    if request.method == "POST":
+        username = request.POST.get("username");
+        password = request.POST.get("password");
+
+        user = User.objects.filter(username=username);
+        if user.exists():
+            return redirect("register");
+
+        user = User.objects.create_user(
+            username=username
+        );
+
+        user.set_password(password);
+        user.save();
+
+        uauth = authenticate(
+            username=username,
+            password=password);
+        if uauth is not None:
+            login(request, uauth);
+            return redirect("index");
+        redirect("login");
+
+    return render(request, "register.html");
+
 def login_page(request):
     if request.method == "POST":
         username = request.POST.get("username");
@@ -115,7 +145,9 @@ def login_page(request):
         if not User.objects.filter(username=username):
             return redirect("login");
 
-        user = authenticate(username=username, password=password);
+        user = authenticate(
+            username=username,
+            password=password);
         if user is None:
             return redirect("login");
         else:
