@@ -1,4 +1,5 @@
 import os, time;
+from django.contrib.auth.models import User
 from django.db import models;
 
 def rename_image(instance, filename) -> str:
@@ -22,4 +23,24 @@ class Artwork(models.Model):
     tags = models.ManyToManyField(Tag);
     score = models.BigIntegerField(default=0);
     # TODO: uploader foreign key
+
+class ArtworkVote(models.Model):
+    class Type(models.IntegerChoices):
+        UPVOTE = 1;
+        DOWNVOTE = -1;
+
+    artwork = models.ForeignKey(
+        Artwork,
+        on_delete=models.CASCADE,
+        related_name="votes");
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="artwork_votes");
+
+    vtype = models.IntegerField(choices=Type);
+
+    class Meta:
+        unique_together = ("artwork", "user");
 
