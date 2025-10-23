@@ -4,6 +4,10 @@ from django.http import HttpResponse;
 from django.shortcuts import get_object_or_404, redirect, render;
 from django.core.paginator import Paginator;
 
+from django.contrib.auth import authenticate, login;
+from django.contrib.auth.decorators import login_required;
+from django.contrib.auth.models import User;
+
 from main import forms, models
 
 def __handle_order_queries(
@@ -102,4 +106,21 @@ def artwork_delete(request, pk):
         os.remove(artwork.image.path);
     artwork.delete();
     return redirect("index");
+
+def login_page(request):
+    if request.method == "POST":
+        username = request.POST.get("username");
+        password = request.POST.get("password");
+
+        if not User.objects.filter(username=username):
+            return redirect("login");
+
+        user = authenticate(username=username, password=password);
+        if user is None:
+            return redirect("login");
+        else:
+            login(request, user);
+            return redirect("index");
+
+    return render(request, "login.html");
 

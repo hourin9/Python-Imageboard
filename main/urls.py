@@ -4,6 +4,7 @@ from . import views;
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path("login", views.login_page, name="login"),
     path("tag/create/", views.tagcreate, name="tagcreate"),
     path("tag/<str:pk>/delete/", views.tag_delete, name="tagdelete"),
 
