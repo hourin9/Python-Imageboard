@@ -3,6 +3,7 @@
 
 {% block content %}
 <div class="flex h-screen">
+    <!-- Left panel (tags and search box) -->
     <div class="w-1/6 p-6 break-words overflow-y-auto">
         <form method="get">
             <input type="text" name="q" placeholder="Search tags"
@@ -17,13 +18,12 @@
         {% include "partials/tagbox.html" with tags=popular_tags %}
     </div>
 
+    <!-- Right panel (image listing) -->
     <div class="flex-1 p-6 overflow-y-auto">
     <div class="grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
         {% for post in page %}
             <div class="overflow-hidden">
-                <a href="{% url 'imageview' post.pk %}?q={{ request.GET.q }}">
-                <img src="{{ post.image.url }}" width="300">
-                </a>
+                {% include "partials/ilst_image.html" with post=post %}
             </div>
         {% empty %}
             <p>No posts yet!</p>
@@ -32,6 +32,7 @@
     </div>
 </div>
 
+<!-- Pagination bullshits -->
 <div class="flex justify-center space-x-4 p-2 mt-6">
     {% if page.has_previous %}
         <a href="?page={{ page.previous_page_number }}

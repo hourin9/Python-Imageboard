@@ -1,0 +1,7 @@
+<a href="{% url 'imageview' post.pk %}?q={{ request.GET.q }}">
+    <!-- Not being able conveniently split long attributes is a HTML bullshit -->
+    <img src="{{ post.image.url }}"
+        title="{% for tag in post.tags.all %}{{ tag.name }} {% endfor %} score:{{ post.score }}"
+        width="300">
+</a>
+
