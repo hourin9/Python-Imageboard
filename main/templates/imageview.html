@@ -15,6 +15,18 @@
     <h3> Tags </h3>
         {% include "partials/tagbox.html" with tags=artwork.tags.all %}
 
+    <a href="{% url 'upvote' artwork.pk %}"
+        class="text-blue-500 font-bold">
+        Upvote
+    </a>
+
+    <a href="{% url 'downvote' artwork.pk %}"
+        class="text-blue-500 font-bold">
+        Downvote
+    </a>
+
+    <br>
+
     <a href="{% url 'imagedelete' artwork.pk %}"
         class="text-red-600 font-bold"
         onclick="return confirm('Delete this artwork?');">

@@ -1,10 +1,11 @@
 import os;
 from django.db.models.query import QuerySet
+from django.db.models import Sum;
 from django.http import HttpResponse;
 from django.shortcuts import get_object_or_404, redirect, render;
 from django.core.paginator import Paginator;
 
-from django.contrib.auth import authenticate, login, logout;
+from django.contrib.auth import authenticate, get_user, login, logout;
 from django.contrib.auth.decorators import login_required, user_passes_test;
 from django.contrib.auth.models import User;
 
@@ -49,7 +50,6 @@ def index(request):
         posts = posts.order_by("-uploadt");
     paginator = Paginator(posts, 20);
     pagen = request.GET.get("page");
-    print("getting page ", pagen);
     page = paginator.get_page(pagen);
 
     poptags: set[models.Tag] = set();
@@ -106,6 +106,32 @@ def artwork_update(request, pk):
         form = forms.ImageUpdate(instance=artwork);
     return render(request, "imageupdate.html",
             {"form": form, "artwork": artwork});
+
+@login_required
+def artwork_upvote(request, pk):
+    artwork: models.Artwork = get_object_or_404(models.Artwork, pk=pk);
+    user = request.user;
+    print(f"{user.username} {user.user_permissions}");
+
+    vote, created = models.ArtworkVote.objects.get_or_create(
+        artwork=artwork,
+        user=user,
+        defaults={'vtype': models.ArtworkVote.Type.UPVOTE}
+    );
+
+    if not created and vote.vtype != models.ArtworkVote.Type.UPVOTE:
+        vote.vtype = models.ArtworkVote.Type.UPVOTE;
+        vote.save();
+
+    total = artwork.votes.aggregate(Sum('vtype'))['vtype__sum'] or 0;
+    artwork.score = total;
+    artwork.save(update_fields=['score']);
+
+    return redirect(imageview, pk);
+
+@login_required
+def artwork_downvote(request, pk):
+    return redirect(imageview, pk);
 
 @login_required
 def artwork_delete(request, pk):
