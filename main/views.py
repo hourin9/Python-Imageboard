@@ -131,7 +131,26 @@ def artwork_upvote(request, pk):
 
 @login_required
 def artwork_downvote(request, pk):
+    artwork: models.Artwork = get_object_or_404(models.Artwork, pk=pk);
+    user = request.user;
+    print(f"{user.username} {user.user_permissions}");
+
+    vote, created = models.ArtworkVote.objects.get_or_create(
+        artwork=artwork,
+        user=user,
+        defaults={'vtype': models.ArtworkVote.Type.DOWNVOTE}
+    );
+
+    if not created and vote.vtype != models.ArtworkVote.Type.DOWNVOTE:
+        vote.vtype = models.ArtworkVote.Type.DOWNVOTE;
+        vote.save();
+
+    total = artwork.votes.aggregate(Sum('vtype'))['vtype__sum'] or 0;
+    artwork.score = total;
+    artwork.save(update_fields=['score']);
+
     return redirect(imageview, pk);
+
 
 @login_required
 def artwork_delete(request, pk):
