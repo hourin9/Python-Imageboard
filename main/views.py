@@ -19,9 +19,9 @@ def __handle_order_queries(
     posts: QuerySet[models.Artwork]) -> QuerySet:
     print("sorting by ", what);
     if what == "score":
-        posts = posts.order_by("score");
-    elif what == "score_asc":
         posts = posts.order_by("-score");
+    elif what == "score_asc":
+        posts = posts.order_by("score");
     elif what == "date_asc":
         posts = posts.order_by("uploadt");
     elif what == "date":
