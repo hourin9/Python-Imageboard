@@ -142,7 +142,10 @@ def artwork_upvote(request, pk):
         defaults={'vtype': models.ArtworkVote.Type.UPVOTE}
     );
 
-    if not created and vote.vtype != models.ArtworkVote.Type.UPVOTE:
+    if not created and vote.vtype == models.ArtworkVote.Type.UPVOTE:
+        vote.delete();
+
+    elif not created and vote.vtype != models.ArtworkVote.Type.UPVOTE:
         vote.vtype = models.ArtworkVote.Type.UPVOTE;
         vote.save();
 
@@ -169,7 +172,10 @@ def artwork_downvote(request, pk):
         defaults={'vtype': models.ArtworkVote.Type.DOWNVOTE}
     );
 
-    if not created and vote.vtype != models.ArtworkVote.Type.DOWNVOTE:
+    if not created and vote.vtype == models.ArtworkVote.Type.DOWNVOTE:
+        vote.delete();
+
+    elif not created and vote.vtype != models.ArtworkVote.Type.DOWNVOTE:
         vote.vtype = models.ArtworkVote.Type.DOWNVOTE;
         vote.save();
 
