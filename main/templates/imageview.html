@@ -15,12 +15,12 @@
     <h3> Tags </h3>
         {% include "partials/tagbox.html" with tags=artwork.tags.all %}
 
-    <a href="{% url 'upvote' artwork.pk %}"
+    <a href="{% url 'upvote' artwork.pk %}?q={{ request.GET.q }}"
         class="text-blue-500 font-bold">
         Upvote
     </a>
 
-    <a href="{% url 'downvote' artwork.pk %}"
+    <a href="{% url 'downvote' artwork.pk %}?q={{ request.GET.q }}"
         class="text-blue-500 font-bold">
         Downvote
     </a>

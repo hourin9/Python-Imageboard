@@ -7,7 +7,8 @@ from django.core.paginator import Paginator;
 
 from django.contrib.auth import authenticate, get_user, login, logout;
 from django.contrib.auth.decorators import login_required, user_passes_test;
-from django.contrib.auth.models import User;
+from django.contrib.auth.models import User
+from django.urls import reverse;
 
 from main import forms, models
 
@@ -108,6 +109,28 @@ def artwork_update(request, pk):
             {"form": form, "artwork": artwork});
 
 @login_required
+def artwork_rmvote(request, pk):
+    artwork = get_object_or_404(models.Artwork, pk=pk);
+    user = request.user;
+    vote = models.ArtworkVote.objects \
+        .filter(artwork=artwork, user=user) \
+        .first();
+
+    if vote:
+        vote.delete();
+
+        total = artwork.votes.aggregate(Sum('vtype'))['vtype__sum'] or 0;
+        artwork.score = total;
+        artwork.save(update_fields=['score']);
+
+    q = request.GET.get('q', '')
+    redirect_url = reverse('imageview', args=[pk])
+    if q:
+        redirect_url += f'?q={q}'
+
+    return redirect(redirect_url);
+
+@login_required
 def artwork_upvote(request, pk):
     artwork: models.Artwork = get_object_or_404(models.Artwork, pk=pk);
     user = request.user;
@@ -127,7 +150,12 @@ def artwork_upvote(request, pk):
     artwork.score = total;
     artwork.save(update_fields=['score']);
 
-    return redirect(imageview, pk);
+    q = request.GET.get('q', '')
+    redirect_url = reverse('imageview', args=[pk])
+    if q:
+        redirect_url += f'?q={q}'
+
+    return redirect(redirect_url);
 
 @login_required
 def artwork_downvote(request, pk):
@@ -149,7 +177,12 @@ def artwork_downvote(request, pk):
     artwork.score = total;
     artwork.save(update_fields=['score']);
 
-    return redirect(imageview, pk);
+    q = request.GET.get('q', '')
+    redirect_url = reverse('imageview', args=[pk])
+    if q:
+        redirect_url += f'?q={q}'
+
+    return redirect(redirect_url);
 
 
 @login_required
