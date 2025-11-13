@@ -22,7 +22,11 @@ class Artwork(models.Model):
     uploadt = models.DateTimeField(auto_now_add=True);
     tags = models.ManyToManyField(Tag);
     score = models.BigIntegerField(default=0);
-    # TODO: uploader foreign key
+
+    uploader = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="artworks");
 
 class ArtworkVote(models.Model):
     class Type(models.IntegerChoices):
