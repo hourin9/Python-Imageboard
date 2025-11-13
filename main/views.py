@@ -90,7 +90,10 @@ def artwork_upload(request):
     if request.method == "POST":
         form = forms.ImagePost(request.POST, request.FILES);
         if form.is_valid():
-            form.save();
+            artwork = form.save(commit=False);
+            artwork.uploader = request.user;
+            artwork.save();
+            form.save_m2m();
             return redirect("index");
     form = forms.ImagePost();
     return render(request, "upload.html", {"form": form});
