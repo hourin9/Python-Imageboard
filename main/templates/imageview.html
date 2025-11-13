@@ -24,7 +24,6 @@
         class="text-blue-500 font-bold">
         Downvote
     </a>
-
     <br>
 
     <a href="{% url 'imagedelete' artwork.pk %}"
@@ -32,13 +31,22 @@
         onclick="return confirm('Delete this artwork?');">
         Delete
     </a>
-
     <br>
 
     <a href="{% url 'imageupdate' artwork.pk %}"
         class="text-yellow-600 font-bold">
         Edit tags
     </a>
+    <br>
+
+    <p> Uploader:
+        <a href=""
+            class="font-bold">
+            {{ artwork.uploader.username }}
+        </a>
+    </p>
+    <br>
+
     </div>
 
     <div class="flex-1 pt-6">
