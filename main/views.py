@@ -85,6 +85,24 @@ def tag_delete(request, pk):
     tag.delete();
     return redirect("index");
 
+def user_page(request, username):
+    user = get_object_or_404(User, username=username)
+
+    uploaded = models.Artwork.objects.filter(uploader=user).order_by("-uploadt")[:5]
+
+    upvoted = models.Artwork.objects.filter(
+        votes__user=user,
+        votes__vtype=models.ArtworkVote.Type.UPVOTE,
+    ).distinct()[:5]
+
+    ctx = {
+        "profile": user,
+        "uploaded": uploaded,
+        "upvoted": upvoted,
+    }
+
+    return render(request, "user.html", ctx)
+
 @login_required
 def artwork_upload(request):
     if request.method == "POST":

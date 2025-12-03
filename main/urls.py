@@ -10,6 +10,8 @@ urlpatterns = [
     path("tag/create/", views.tagcreate, name="tagcreate"),
     path("tag/<str:pk>/delete/", views.tag_delete, name="tagdelete"),
 
+    path("user/<str:username>/", views.user_page, name="user"),
+
     path("artwork/<int:pk>/rmvote", views.artwork_rmvote, name="rmvote"),
     path("artwork/<int:pk>/upvote", views.artwork_upvote, name="upvote"),
     path("artwork/<int:pk>/downvote", views.artwork_downvote, name="downvote"),
