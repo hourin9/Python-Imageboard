@@ -21,7 +21,9 @@
         </a>
 
         {% if user.is_authenticated %}
-            <span class="font-bold text-blue-900"> {{ user.username }} </span>
+            <a href="{% url 'user' user.username %}"
+                <span class="font-bold text-blue-900"> {{ user.username }} </span>
+            </a>
             <a href="{% url 'logout' %}" class="font-bold text-red-700">
                 Logout
             </a>

@@ -42,7 +42,7 @@
     <p> Score: {{ artwork.score }} </p>
 
     <p> Uploader:
-        <a href=""
+    <a href="{% url 'user' artwork.uploader.username %}"
             class="font-bold">
             {{ artwork.uploader.username }}
         </a>
