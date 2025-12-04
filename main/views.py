@@ -89,6 +89,20 @@ def tag_delete(request, pk):
     tag.delete();
     return redirect("index");
 
+def tag_list(request):
+    q = request.GET.get("q", "").strip()
+    tags = models.Tag.objects.all()
+
+    if q:
+        tags = tags.filter(name__icontains=q)
+
+    tags = tags.order_by("name")
+
+    return render(request, "taglist.html", {
+        "tags": tags,
+        "query": q,
+    })
+
 def user_page(request, username):
     user = get_object_or_404(User, username=username)
 

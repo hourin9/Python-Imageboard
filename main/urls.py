@@ -7,6 +7,7 @@ urlpatterns = [
     path("login", views.login_page, name="login"),
     path("logout", views.logout_page, name="logout"),
     path("register", views.register_page, name="register"),
+    path("tag/", views.tag_list, name="tags"),
     path("tag/create/", views.tagcreate, name="tagcreate"),
     path("tag/<str:pk>/delete/", views.tag_delete, name="tagdelete"),
 
