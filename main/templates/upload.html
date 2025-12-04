@@ -11,11 +11,24 @@
 <div class="flex-1 pt-6">
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="text-green-700 font-bold">
-            Upload
-        </button>
+
+        {{ form.non_field_errors }}
+
+        <p>
+            {{ form.image.label_tag }}
+            {{ form.image }}
+            {{ form.image.errors }}
+        </p>
+
+        <p>
+            {{ form.tags.label_tag }}
+            {{ form.tags }}
+            {{ form.tags.errors }}
+        </p>
+
+        <button type="submit">Upload</button>
     </form>
+
 
     <a href="{% url 'index' %}" class="text-red-500 font-bold"
         >Back to board

@@ -1,6 +1,7 @@
 import os;
 from django.db.models.query import QuerySet
 from django.db.models import Sum;
+from django.db.transaction import commit
 from django.http import HttpResponse;
 from django.shortcuts import get_object_or_404, redirect, render;
 from django.core.paginator import Paginator;
@@ -111,9 +112,10 @@ def artwork_upload(request):
             artwork = form.save(commit=False);
             artwork.uploader = request.user;
             artwork.save();
-            form.save_m2m();
+            form.save(commit=True);
             return redirect("index");
-    form = forms.ImagePost();
+    else:
+        form = forms.ImagePost();
     return render(request, "upload.html", {"form": form});
 
 @login_required
