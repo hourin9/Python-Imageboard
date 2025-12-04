@@ -11,6 +11,7 @@
     <p>Uploaded artworks: {{ uploaded.count }}</p>
 </div>
 
+<a href="{% url 'index' %}?q=uploader:{{ profile.username }}"
 <h2 class="text-2xl font-semibold mb-2">Recent uploads</h2>
 <div class="flex flex-wrap gap-3 mb-8">
     {% for post in uploaded %}

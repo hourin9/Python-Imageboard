@@ -42,9 +42,12 @@ def index(request):
         for name in tags:
             if name[0] == '-':
                 posts = posts.exclude(tags__name__iexact=name[1:]);
-            elif name[0:5] == "order":
+            elif name.startswith("order:"):
                 posts = __handle_order_queries(name[6:], posts);
                 already_ordered = True;
+            elif name.startswith("uploader:"):
+                username = name[9:];
+                posts = posts.filter(uploader__username__iexact=username);
             else:
                 posts = posts.filter(tags__name__iexact=name);
 
