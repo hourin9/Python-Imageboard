@@ -13,7 +13,15 @@
 <div class="flex-1 pt-6">
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+
+        {{ form.non_field_errors }}
+
+        <p>
+            {{ form.tags.label_tag }}
+            {{ form.tags }}
+            {{ form.tags.errors }}
+        </p>
+
         <button type="submit" class="text-green-700 font-bold">
             Save changes
         </button>

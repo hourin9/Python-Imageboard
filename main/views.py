@@ -124,10 +124,11 @@ def artwork_update(request, pk):
     if request.method == "POST":
         form = forms.ImagePost(request.POST, instance=artwork);
         if form.is_valid():
-            form.save();
+            form.save(commit=True);
             return redirect("imageview", pk=artwork.pk);
     else:
-        form = forms.ImageUpdate(instance=artwork);
+        initial_tags = " ".join(t.name for t in artwork.tags.all());
+        form = forms.ImageUpdate(instance=artwork, initial={"tags": initial_tags});
     return render(request, "imageupdate.html",
             {"form": form, "artwork": artwork});
 
